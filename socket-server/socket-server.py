@@ -5,7 +5,6 @@ from chatterbot.trainers import ListTrainer
 from chatterbot.trainers import ChatterBotCorpusTrainer
 import pandas as pd
 
-
 HOST = '127.0.0.1'
 PORT = int(config("PORT"))
 
@@ -33,7 +32,7 @@ for i in data.index:
     except:
         print("error")
 
-    if i > 360:
+    if i > 60:
         break
 
 trainer.train(list)
@@ -44,12 +43,12 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socket:
     socket.bind((HOST, PORT))
     socket.listen()
     print('Listening...')
-    conn, addr = socket.accept()
-    with conn:
-        print('Connected by', addr)
-        while True:
+    while 1:
+        conn, addr = socket.accept()
+        with conn:
+            print('Connected by', addr)
             data = conn.recv(1024)
-            request = str(data)[2:-1]
+            request = str(data)[2:-1].strip()
             print("Other:", request)
             response = bot.get_response(request)
             print('MASLACHAT: ', response, '\n')
@@ -57,3 +56,4 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socket:
             #     print("Break...")
             #     break
             conn.sendall(str(response).encode('utf-8'))
+            conn.close()
