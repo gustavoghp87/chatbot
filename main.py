@@ -2,6 +2,7 @@ from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 from chatterbot.trainers import ChatterBotCorpusTrainer
 import pandas as pd
+import sys
 
 
 bot = ChatBot(
@@ -21,13 +22,15 @@ for i in data.index:
         print(i)
         if clave!='nan':
             list.append(clave)
+            list.append(clave)
             print(clave)
+        list.append(frase)
         list.append(frase)
         print(frase)
     except:
         print("error")
 
-    if i > 60:
+    if i > 360:
         break
 
 
@@ -45,14 +48,18 @@ trainer.train(list)
 # trainer.train("chatterbot.corpus.spanish.trivia")
 
 
-print("\n")
+print('\n')
 
-name = input("Ingresa tu nombre: ")
+# name = input("Ingresa tu nombre: ")
+name = 'nombre'
 
 print('\n')
 
 while True:
-    request = input(name.upper() + ':  ')
+    # request = input(name.upper() + ':  ')
+    request = ''
+    for arg in sys.argv:
+        request += str(arg) + ' '
     if request=='Bye' or request =='bye':
         print('MASLACHAT: Bye')
         break
